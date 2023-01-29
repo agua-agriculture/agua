@@ -1,7 +1,9 @@
-# agua
+# Agua
 sms based water management for Brazilian farmers
 
 ## What is it?
+
+An sms based service to help farmers (beginning in Brazil) manage their water usage. The service is currently in development and is not yet ready for use.
 
 ## Contributing
 
