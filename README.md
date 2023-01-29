@@ -1,5 +1,4 @@
 # Agua
-sms based water management for Brazilian farmers
 
 ## What is it?
 
