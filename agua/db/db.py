@@ -1,6 +1,10 @@
 from typing import Optional
 import psycopg2 as pg
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 class AguaDB:
     """A class that works with the Agua database.
@@ -25,11 +29,11 @@ class AguaDB:
         """
         try: 
             self.connection = pg.connect(
-                host=os.environ.get("DB_HOST"),
-                port=os.environ.get("DB_PORT"),
-                user=os.environ.get("DB_USER"),
-                password=os.environ.get("DB_PASSWORD"),
-                database=os.environ.get("DB_NAME"),
+                host=os.environ["DB_HOST"],
+                port=os.environ["DB_PORT"],
+                user=os.environ["DB_USER"],
+                password=os.environ["DB_PASSWORD"],
+                database=os.environ["DB_NAME"],
                 options="-c search_path=agua,public"
             )
             return True

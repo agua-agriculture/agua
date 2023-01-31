@@ -5,3 +5,4 @@ uvicorn
 matplotlib
 twilio
 psycopg2
+python-dotenv

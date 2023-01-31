@@ -8,3 +8,5 @@ def run():
     db.connect()
 
     print("Connected to database")
+    db.disconnect()
+    return
