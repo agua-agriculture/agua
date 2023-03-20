@@ -1,19 +1,17 @@
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
-from agua.db.db import AguaDB
 import os
 
 class Messenger:
 
-    def __init__(self) -> None:
+    def __init__(self, db) -> None:
         self.client = Client(os.environ.get("TWILIO_ACCOUNT_SID"), 
                              os.environ.get("TWILIO_AUTH_TOKEN"))
         self.from_number = os.environ.get("TWILIO_PHONE_NUMBER")
-        self.db = AguaDB().connect()
+        self.db = db
 
     def send_message(self, to_number: str, message: str) -> None:
         """Sends a message to a phone number.
-
         This function will be called by the API to send messages to subscribers.
         """
         self.client.messages.create(to=to_number, 
@@ -32,9 +30,6 @@ class Messenger:
         self.client.messaging.services(os.environ.get("TWILIO_MESSAGING_SERVICE_SID")) \
             .phone_numbers(to_number).create()
 
-        # Add the phone number to the database
-        self.db.cursor().execute("INSERT INTO subscribers (phone_number) VALUES (%s)", (to_number))
-
     def unsubscribe(self, to_number: str) -> None:
         """Unsubscribes a phone number from the messaging service.
         
@@ -45,14 +40,7 @@ class Messenger:
         self.client.messaging.services(os.environ.get("TWILIO_MESSAGING_SERVICE_SID")) \
             .phone_numbers(to_number).delete()
 
-        # Remove the phone number from the database
-        self.db.cursor().execute("DELETE FROM subscribers WHERE phone_number = %s", (to_number))
-
     def handle_message(self, request):
         """
         """
         pass
-
-if __name__ == '__main__':
-    m = Messenger()
-    m.send_message("+14155551212", "Hello, world!")

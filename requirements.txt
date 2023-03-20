@@ -1,8 +1,5 @@
-fastapi
-pandas
-numpy
-uvicorn
-matplotlib
-twilio
-psycopg2
-python-dotenv
+Flask
+Twilio
+psycopg2-binary
+openai
+gunicorn==20.0.4
