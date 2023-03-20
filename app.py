@@ -2,17 +2,17 @@ import os
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from flask import Flask, request
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import openai
 
 # Load the environment variables
-# load_dotenv()
+load_dotenv()
 
 # Twilio variables
-TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
-TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
-TWILIO_MESSAGING_SERVICE_ID = os.getenv("TWILIO_MESSAGING_SERVICE_ID")
+TWILIO_ACCOUNT_SID = os.environ["TWILIO_ACCOUNT_SID"]
+TWILIO_AUTH_TOKEN = os.environ["TWILIO_AUTH_TOKEN"]
+TWILIO_PHONE_NUMBER = os.environ["TWILIO_PHONE_NUMBER"]
+TWILIO_MESSAGING_SERVICE_ID = os.environ["TWILIO_MESSAGING_SERVICE_ID"]
 
 # Initilize the twilio client
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
