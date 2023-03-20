@@ -31,6 +31,10 @@ sample_data = [{
 # Initialize the flask app
 app = Flask(__name__)
 
+@app.route('/healthcheck')
+def healthcheck():
+    return {"status": 200}
+
 @app.route('/sms', methods=['GET', 'POST'])
 def sms():
     message_body = request.form['Body']
