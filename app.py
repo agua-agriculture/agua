@@ -2,11 +2,11 @@ import os
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from flask import Flask, request
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import openai
 
 # Load the environment variables
-load_dotenv()
+# load_dotenv()
 
 # Twilio variables
 TWILIO_ACCOUNT_SID = os.environ["TWILIO_ACCOUNT_SID"]
