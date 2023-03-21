@@ -80,12 +80,12 @@ def send_recommendations():
     for farmer in sample_data:
         # Retrieve the data from the database for the farmers
         monitor = Weather(farmer["location"])
-        monitor.get_total_irrigation(farmer["crop"], farmer["acres"])
+        required_irrigation = monitor.get_total_irrigation(farmer["crop"], farmer["acres"])
 
         # Generate irrigation recommendations using OpenAI API
         prompt = f"""
             Generate irrigation recommendations for {farmer['crop']} on {farmer['acres']} acres. 
-            The total irrigation is {monitor.total_irrigation} mm.
+            The total irrigation is {required_irrigation} mm.
         """
         response = openai.Completion.create(
             engine="text-davinci-003",
