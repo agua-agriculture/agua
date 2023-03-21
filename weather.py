@@ -42,15 +42,15 @@ class Weather:
             total_rain += day['precip']
         return total_rain
     
-    def get_total_irrigation(self, crop: str, area: float) -> float:
+    def get_total_irrigation(self, crop: str, acres: float) -> float:
         """Get the total irrigation requirements for the next week."""
         self.get_weather()
         total_rain = self.get_total_rain()
         total_irrigation = 0
         if crop == 'wheat':
-            total_irrigation = (area * 0.8) - total_rain
+            total_irrigation = (acres * 0.8) - total_rain
         elif crop == 'corn':
-            total_irrigation = (area * 1.2) - total_rain
+            total_irrigation = (acres * 1.2) - total_rain
         elif crop == 'soy':
-            total_irrigation = (area * 1.5) - total_rain
+            total_irrigation = (acres * 1.5) - total_rain
         return total_irrigation
