@@ -2,11 +2,12 @@ import os
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from flask import Flask, request
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import openai
+from weather import Weather
 
 # Load the environment variables
-# load_dotenv()
+load_dotenv()
 
 # Twilio variables
 TWILIO_ACCOUNT_SID = os.environ["TWILIO_ACCOUNT_SID"]
@@ -18,11 +19,12 @@ TWILIO_MESSAGING_SERVICE_ID = os.environ["TWILIO_MESSAGING_SERVICE_ID"]
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 # Initialize the OpenAI API
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # Sample data
 sample_data = [{
     "phone": "+12899716341",
+    "location": "goias",
     "crop": "wheat",
     "acres": "100",
     "irrigation_type": "drip",
@@ -35,21 +37,36 @@ app = Flask(__name__)
 def healthcheck():
     return {"status": 200}
 
-@app.route('/sms', methods=['GET', 'POST'])
+@app.route('/sms', methods=['POST'])
 def sms():
     message_body = request.form['Body']
     from_number = request.form['From']
 
+    # Check if the user wants an update
+    if message_body == "update":
+        send_recommendations()
+        return "Recommendations sent!"
+    
     # Parse the message body to get the crop and acres
-    crop, acres, irrigation_type = message_body.split(", ")
+    msg = message_body.split(", ")
+    if len(msg) != 4:
+        response = MessagingResponse()
+        response.message("Invalid message format. Please send the message in the following format: location, crop, acres, irrigation_type")
+        return str(response)
+    else:
+        location, crop, acres, irrigation_type = msg
 
+    # Store the data in a database
     farmer = {}
+
     # Process and store the crop data in the database
     farmer["phone"] = from_number
+    farmer["location"] = location
     farmer["crop"] = crop
     farmer["acres"] = acres
     farmer["irrigation_type"] = irrigation_type
 
+    # Add the data to the db
     sample_data.append(farmer)
 
     response = MessagingResponse()
@@ -59,11 +76,17 @@ def sms():
 
 @app.route('/send-recommendations', methods=['POST'])
 def send_recommendations():
-    # Retrieve the data from the database for the farmers
 
     for farmer in sample_data:
+        # Retrieve the data from the database for the farmers
+        monitor = Weather(farmer["location"])
+        monitor.get_total_irrigation()
+
         # Generate irrigation recommendations using OpenAI API
-        prompt = f"Generate irrigation recommendations for {farmer['crop']} on {farmer['acres']} acres."
+        prompt = f"""
+            Generate irrigation recommendations for {farmer['crop']} on {farmer['acres']} acres. 
+            The total irrigation is {monitor.total_irrigation} mm.
+        """
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
