@@ -48,9 +48,9 @@ class Weather:
         total_rain = self.get_total_rain()
         total_irrigation = 0
         if crop == 'wheat':
-            total_irrigation = (acres * 0.8) - total_rain
+            total_irrigation = (float(acres) * 0.8) - total_rain
         elif crop == 'corn':
-            total_irrigation = (acres * 1.2) - total_rain
+            total_irrigation = (float(acres) * 1.2) - total_rain
         elif crop == 'soy':
-            total_irrigation = (acres * 1.5) - total_rain
+            total_irrigation = (float(acres) * 1.5) - total_rain
         return total_irrigation
