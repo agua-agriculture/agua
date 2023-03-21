@@ -6,9 +6,9 @@ forecasted weather data.
 
 import os
 import requests
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv() # delete for production
+# load_dotenv() # delete for production
 
 class Weather:
 

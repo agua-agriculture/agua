@@ -2,12 +2,12 @@ import os
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from flask import Flask, request
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import openai
 from weather import Weather
 
 # Load the environment variables
-load_dotenv()
+# load_dotenv()
 
 # Twilio variables
 TWILIO_ACCOUNT_SID = os.environ["TWILIO_ACCOUNT_SID"]
@@ -43,9 +43,9 @@ def sms():
     from_number = request.form['From']
 
     # Check if the user wants an update
-    # if message_body.lower() == "update":
-    #     send_recommendations()
-    #     return "Recommendations sent!"
+    if message_body.lower() == "update":
+        send_recommendations()
+        return "Recommendations sent!"
     
     # Parse the message body to get the crop and acres
     msg = message_body.split(", ")
