@@ -27,8 +27,8 @@ def test_weather():
 
     # Calculate the total rain for the 2 weeks
     total_rain = 0
-    for day in resp['days']:
-        total_rain += day['precip']
+    for day in daily_weather:
+        total_rain += daily_weather[day]['precip']
     print(total_rain)
 
 if __name__ == '__main__':

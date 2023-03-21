@@ -39,7 +39,7 @@ class Weather:
         """Get the total rain for the next week."""
         total_rain = 0
         for day in self.weather:
-            total_rain += day['precip']
+            total_rain += self.weather[day]['precip']
         return total_rain
     
     def get_total_irrigation(self, crop: str, acres: float) -> float:
