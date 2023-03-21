@@ -85,7 +85,10 @@ def send_recommendations():
         # Generate irrigation recommendations using OpenAI API
         prompt = f"""
             Generate irrigation recommendations for {farmer['crop']} on {farmer['acres']} acres. 
-            The total irrigation is {required_irrigation} mm.
+            Include that the total irrigation for the week is {required_irrigation} mm.
+
+            Make sure the recommendations are for {farmer['irrigation_type']} irrigation and specific
+            to the location of the farm, which is {farmer['location']}.
         """
         response = openai.Completion.create(
             engine="text-davinci-003",
