@@ -43,9 +43,9 @@ def sms():
     from_number = request.form['From']
 
     # Check if the user wants an update
-    if message_body == "update":
-        send_recommendations()
-        return "Recommendations sent!"
+    # if message_body.lower() == "update":
+    #     send_recommendations()
+    #     return "Recommendations sent!"
     
     # Parse the message body to get the crop and acres
     msg = message_body.split(", ")
